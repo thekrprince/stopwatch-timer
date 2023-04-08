@@ -1,11 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { NativeBaseProvider } from 'native-base';
 import { StyleSheet, Text, View, useColorScheme } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 export default function App() {
   const colorScheme = useColorScheme();
-  console.log(colorScheme);
 
   const themeTextStyle =
     colorScheme === 'light' ? styles.lightThemeText : styles.darkThemeText;
@@ -14,25 +13,24 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <NativeBaseProvider>
-        <View style={[styles.container, themeBgStyle]}>
-          <Text style={[styles.heading, themeTextStyle]}>Stopwatch</Text>
-          <StatusBar style="auto" />
-        </View>
-      </NativeBaseProvider>
+      <SafeAreaView style={{ flex: 1 }}>
+        <NativeBaseProvider>
+          <View style={[styles.container, themeBgStyle]}>
+            <Text style={[styles.heading, themeTextStyle]}>Stopwatch</Text>
+            <StatusBar style="auto" />
+          </View>
+        </NativeBaseProvider>
+      </SafeAreaView>
     </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    height: '100%',
   },
   heading: {
-    fontSize: '30px',
+    fontSize: 30,
   },
   lightThemeText: {
     color: '#242c40',
