@@ -1,4 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
+import { NativeBaseProvider } from 'native-base';
 import { StyleSheet, Text, View, useColorScheme } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -13,10 +14,12 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <View style={[styles.container, themeBgStyle]}>
-        <Text style={[styles.heading, themeTextStyle]}>Stopwatch</Text>
-        <StatusBar style="auto" />
-      </View>
+      <NativeBaseProvider>
+        <View style={[styles.container, themeBgStyle]}>
+          <Text style={[styles.heading, themeTextStyle]}>Stopwatch</Text>
+          <StatusBar style="auto" />
+        </View>
+      </NativeBaseProvider>
     </SafeAreaProvider>
   );
 }
