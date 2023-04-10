@@ -1,47 +1,50 @@
-import { StatusBar } from 'expo-status-bar';
-import { NativeBaseProvider } from 'native-base';
-import { StyleSheet, Text, View, useColorScheme } from 'react-native';
+import {
+  NativeBaseProvider,
+  Box,
+  Text,
+  Button,
+  useColorMode,
+  useColorModeValue,
+  SunIcon,
+  MoonIcon,
+  Flex,
+} from 'native-base';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import Timer from './components/timer';
+import { useState } from 'react';
 
 export default function App() {
-  const colorScheme = useColorScheme();
+  const { colorMode, toggleColorMode } = useColorMode();
+  const text = useColorModeValue('Light', 'Dark');
+  const bg = useColorModeValue('warmGray.50', 'coolGray.800');
+  const [isOn, setIsOn] = useState(false);
 
-  const themeTextStyle =
-    colorScheme === 'light' ? styles.lightThemeText : styles.darkThemeText;
-  const themeBgStyle =
-    colorScheme === 'light' ? styles.lightBgContainer : styles.darkBgContainer;
+  const buttonHandler = () => {
+    toggleColorMode();
+    setIsOn(!isOn);
+  };
 
   return (
     <SafeAreaProvider>
       <SafeAreaView style={{ flex: 1 }}>
         <NativeBaseProvider>
-          <View style={[styles.container, themeBgStyle]}>
-            <Text style={[styles.heading, themeTextStyle]}>Stopwatch</Text>
-            <StatusBar style="auto" />
-          </View>
+          <Box bg={bg} padding={2} height={'100%'}>
+            <Flex
+              flexDirection="row"
+              v={100}
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Text fontSize={30}>Stopwatch</Text>
+              <Button onPress={buttonHandler} variant="unstyled">
+                {text === 'Light' ? <MoonIcon /> : <SunIcon />}
+              </Button>
+            </Flex>
+            <Timer />
+            {isOn ? <Text>I am {text}</Text> : ''}
+          </Box>
         </NativeBaseProvider>
       </SafeAreaView>
     </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    height: '100%',
-  },
-  heading: {
-    fontSize: 30,
-  },
-  lightThemeText: {
-    color: '#242c40',
-  },
-  darkThemeText: {
-    color: '#fff',
-  },
-  lightBgContainer: {
-    backgroundColor: '#d0d0c0',
-  },
-  darkBgContainer: {
-    backgroundColor: '#242c40',
-  },
-});

@@ -1,18 +1,17 @@
 import React from 'react';
 import { useState } from 'react';
-import { Text } from 'react-native';
-import { View } from 'react-native';
+import { Box, Text } from 'native-base';
 
 const Timer = () => {
-  const [seconds, setSeconds] = useState(00);
-  const [miliSeconds, setMiliSeconds] = useState(00);
+  const [seconds, setSeconds] = useState('00');
+  const [miliSeconds, setMiliSeconds] = useState('00');
 
   return (
-    <View>
-      <Text>
+    <Box>
+      <Text fontSize="md">
         {seconds}:{miliSeconds}
       </Text>
-    </View>
+    </Box>
   );
 };
 
