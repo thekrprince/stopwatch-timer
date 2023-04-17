@@ -1,16 +1,28 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useState } from 'react';
 import { Box, Flex, Text } from 'native-base';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 
 const Timer = () => {
-  const [seconds, setSeconds] = useState('00');
-  const [miliSeconds, setMiliSeconds] = useState('00');
+  const [seconds, setSeconds] = useState(0);
+  const [miliSeconds, setMiliSeconds] = useState(0);
+  const intervalRef = useRef(null);
   const [isResumed, setIsResumed] = useState(false);
   const [isRestartEnabled, setIsRestartEnabled] = useState(false);
 
+  useEffect(() => {
+    let secondInterval;
+    if (isResumed) {
+      secondInterval = setInterval(() => {
+        setSeconds((prev) => prev + 1);
+      }, 1000);
+    }
+
+    return () => clearInterval(interval);
+  }, [isResumed]);
+
   // function for start button
-  const timerStartHandler = () => {
+  const startHandler = () => {
     setIsResumed(true);
     setIsRestartEnabled(true);
   };
@@ -18,11 +30,14 @@ const Timer = () => {
   // function for restart button
   const restartHandler = () => {
     setIsResumed(false);
+    setSeconds(0);
+    setMiliSeconds(0);
   };
 
   // function for pause button
   const pauseHandler = () => {
     setIsResumed(false);
+    clearInterval(intervalRef.current);
   };
 
   // function for lap button
@@ -46,11 +61,7 @@ const Timer = () => {
       <Flex width="80%" flexDirection="row" justifyContent="space-between">
         {!isResumed && (
           <>
-            <AntDesign
-              name="playcircleo"
-              size={60}
-              onPress={timerStartHandler}
-            />
+            <AntDesign name="playcircleo" size={60} onPress={startHandler} />
             <MaterialCommunityIcons
               name="restart"
               size={60}
