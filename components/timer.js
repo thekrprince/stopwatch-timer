@@ -6,19 +6,33 @@ import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 const Timer = () => {
   const [seconds, setSeconds] = useState(0);
   const [miliSeconds, setMiliSeconds] = useState(0);
-  const intervalRef = useRef(null);
   const [isResumed, setIsResumed] = useState(false);
   const [isRestartEnabled, setIsRestartEnabled] = useState(false);
 
+  // useEffect for seconds
   useEffect(() => {
     let secondInterval;
+
     if (isResumed) {
       secondInterval = setInterval(() => {
         setSeconds((prev) => prev + 1);
       }, 1000);
     }
 
-    return () => clearInterval(interval);
+    return () => clearInterval(secondInterval);
+  }, [isResumed]);
+
+  // useEffect for mili seconds
+  useEffect(() => {
+    let miliSecondsInterval;
+
+    if (isResumed) {
+      miliSecondsInterval = setInterval(() => {
+        setMiliSeconds((prev) => prev + 1);
+      }, 100);
+    }
+
+    return () => clearInterval(miliSecondsInterval);
   }, [isResumed]);
 
   // function for start button
@@ -37,7 +51,6 @@ const Timer = () => {
   // function for pause button
   const pauseHandler = () => {
     setIsResumed(false);
-    clearInterval(intervalRef.current);
   };
 
   // function for lap button
