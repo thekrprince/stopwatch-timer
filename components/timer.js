@@ -29,11 +29,25 @@ const Timer = () => {
     if (isResumed) {
       miliSecondsInterval = setInterval(() => {
         setMiliSeconds((prev) => prev + 1);
-      }, 100);
+      }, 10);
     }
 
     return () => clearInterval(miliSecondsInterval);
   }, [isResumed]);
+
+  // useEffect to reset seconds to 0
+  useEffect(() => {
+    if (seconds > 59) {
+      setSeconds(0);
+    }
+  }, [miliSeconds]);
+
+  // useEffect to reset miliSeconds to 0
+  useEffect(() => {
+    if (miliSeconds > 99) {
+      setMiliSeconds(0);
+    }
+  }, [miliSeconds]);
 
   // function for start button
   const startHandler = () => {
@@ -65,7 +79,10 @@ const Timer = () => {
     >
       <Box>
         <Text fontSize="6xl">
-          {seconds}:{miliSeconds}
+          {seconds.toLocaleString().length === 1 ? `0${seconds}` : seconds}:
+          {miliSeconds.toLocaleString().length === 1
+            ? `0${miliSeconds}`
+            : miliSeconds}
         </Text>
         <Text fontSize="2xl" textAlign="center">
           Ready!?
