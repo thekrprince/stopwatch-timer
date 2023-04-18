@@ -72,6 +72,7 @@ const Timer = () => {
   // function for restart button
   const restartHandler = () => {
     setIsResumed(false);
+    setIsRestartEnabled(false);
     setSeconds(0);
     setMiliSeconds(0);
     setMinutes(0);
@@ -105,9 +106,16 @@ const Timer = () => {
             ? `0${miliSeconds}`
             : miliSeconds}
         </Text>
-        <Text fontSize="2xl" textAlign="center">
-          Ready!?
-        </Text>
+        {!isRestartEnabled && (
+          <Text fontSize="2xl" textAlign="center">
+            Ready!?
+          </Text>
+        )}
+        {!isResumed && isRestartEnabled && (
+          <Text fontSize="2xl" textAlign="center">
+            Paused
+          </Text>
+        )}
       </Box>
       <Flex width="80%" flexDirection="row" justifyContent="space-between">
         {!isResumed && (
