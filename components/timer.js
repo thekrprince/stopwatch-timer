@@ -6,6 +6,7 @@ import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 const Timer = () => {
   const [seconds, setSeconds] = useState(0);
   const [miliSeconds, setMiliSeconds] = useState(0);
+  const [minutes, setMinutes] = useState(0);
   const [isResumed, setIsResumed] = useState(false);
   const [isRestartEnabled, setIsRestartEnabled] = useState(false);
 
@@ -35,6 +36,19 @@ const Timer = () => {
     return () => clearInterval(miliSecondsInterval);
   }, [isResumed]);
 
+  // useEffect for minutes
+  useEffect(() => {
+    let minutesInterval;
+
+    if (isResumed) {
+      minutesInterval = setInterval(() => {
+        setMinutes((prev) => prev + 1);
+      }, 1000 * 60);
+    }
+
+    return () => clearInterval(minutesInterval);
+  }, [isResumed]);
+
   // useEffect to reset seconds to 0
   useEffect(() => {
     if (seconds > 59) {
@@ -60,6 +74,7 @@ const Timer = () => {
     setIsResumed(false);
     setSeconds(0);
     setMiliSeconds(0);
+    setMinutes(0);
   };
 
   // function for pause button
@@ -79,6 +94,12 @@ const Timer = () => {
     >
       <Box>
         <Text fontSize="6xl">
+          {minutes > 0
+            ? minutes.toLocaleString().length === 1
+              ? `0${minutes}`
+              : minutes
+            : ''}
+          {minutes > 0 && ':'}
           {seconds.toLocaleString().length === 1 ? `0${seconds}` : seconds}:
           {miliSeconds.toLocaleString().length === 1
             ? `0${miliSeconds}`
