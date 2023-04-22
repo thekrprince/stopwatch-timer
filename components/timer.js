@@ -10,19 +10,6 @@ const Timer = () => {
   const [isResumed, setIsResumed] = useState(false);
   const [isRestartEnabled, setIsRestartEnabled] = useState(false);
 
-  // useEffect for seconds
-  useEffect(() => {
-    let secondInterval;
-
-    if (isResumed) {
-      secondInterval = setInterval(() => {
-        setSeconds((prev) => prev + 1);
-      }, 1000);
-    }
-
-    return () => clearInterval(secondInterval);
-  }, [isResumed]);
-
   // useEffect for mili seconds
   useEffect(() => {
     let miliSecondsInterval;
@@ -36,29 +23,18 @@ const Timer = () => {
     return () => clearInterval(miliSecondsInterval);
   }, [isResumed]);
 
-  // useEffect for minutes
-  useEffect(() => {
-    let minutesInterval;
-
-    if (isResumed) {
-      minutesInterval = setInterval(() => {
-        setMinutes((prev) => prev + 1);
-      }, 1000 * 60);
-    }
-
-    return () => clearInterval(minutesInterval);
-  }, [isResumed]);
-
   // useEffect to reset seconds to 0
   useEffect(() => {
-    if (seconds > 59) {
+    if (seconds === 60) {
+      setMinutes((prev) => prev + 1);
       setSeconds(0);
     }
-  }, [miliSeconds]);
+  }, [seconds]);
 
   // useEffect to reset miliSeconds to 0
   useEffect(() => {
-    if (miliSeconds > 99) {
+    if (miliSeconds === 100) {
+      setSeconds((prev) => prev + 1);
       setMiliSeconds(0);
     }
   }, [miliSeconds]);
@@ -93,8 +69,8 @@ const Timer = () => {
       height="75%"
       mt="10"
     >
-      <Box>
-        <Text fontSize="6xl">
+      <Box width="100%">
+        <Text fontSize="6xl" textAlign="center">
           {minutes > 0
             ? minutes.toLocaleString().length === 1
               ? `0${minutes}`
