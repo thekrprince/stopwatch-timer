@@ -28,20 +28,23 @@ export default function App() {
     <SafeAreaProvider>
       <SafeAreaView style={{ flex: 1 }}>
         <NativeBaseProvider>
-          <Box bg={bg} padding={2} height={'100%'}>
-            <Flex
+          <Box bg="primary.400" padding={2} height={'100%'}>
+            {/* <Flex
               flexDirection="row"
               v={100}
               justifyContent="space-between"
               alignItems="center"
-            >
-              <Text fontSize={30}>Stopwatch</Text>
-              <Button onPress={buttonHandler} variant="unstyled">
+              px="2"
+            > */}
+            <Text fontSize="30" textAlign="center">
+              Stopwatch
+            </Text>
+            {/* <Button onPress={buttonHandler} variant="unstyled">
                 {text === 'Light' ? <MoonIcon /> : <SunIcon />}
-              </Button>
-            </Flex>
+              </Button> */}
+            {/* </Flex> */}
             <Timer />
-            {isOn ? <Text>I am {text}</Text> : ''}
+            {/* {isOn ? <Text>I am {text}</Text> : ''} */}
           </Box>
         </NativeBaseProvider>
       </SafeAreaView>
